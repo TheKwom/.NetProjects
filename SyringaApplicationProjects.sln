@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SyringaHelpDesk", "SyringaHelpDesk\SyringaHelpDesk.csproj", "{EE2447F1-72E4-4897-A2E0-116DA1079413}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE2447F1-72E4-4897-A2E0-116DA1079413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE2447F1-72E4-4897-A2E0-116DA1079413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE2447F1-72E4-4897-A2E0-116DA1079413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE2447F1-72E4-4897-A2E0-116DA1079413}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2C70CAF9-99A3-46B5-87B5-E41D8EA000D4}
+	EndGlobalSection
+EndGlobal

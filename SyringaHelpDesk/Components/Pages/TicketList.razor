@@ -1,0 +1,79 @@
+@page "/tickets"
+@inject SyringaHelpDesk.Data.AppDbContext DbContext
+@using SyringaHelpDesk.Data
+@using Microsoft.EntityFrameworkCore
+@rendermode InteractiveServer
+
+<PageTitle>Tickets</PageTitle>
+
+<h1>Tickets</h1>
+
+@if (!string.IsNullOrEmpty(statusMessage))
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @statusMessage
+        <button type="button" class="btn-close" @onclick="() => statusMessage = null" aria-label="Close"></button>
+    </div>
+}
+
+@if (tickets == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!tickets.Any())
+{
+    <p>No tickets found.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ticket in tickets)
+            {
+                <tr>
+                    <td>@ticket.Id</td>
+                    <td>@ticket.Title</td>
+                    <td>
+                        <select @onchange="async e => await UpdateStatus(ticket, e.Value?.ToString())" value="@ticket.Status.ToString()">
+                            @foreach (var status in Enum.GetValues<TicketStatus>())
+                            {
+                                <option value="@status.ToString()">@status.ToString()</option>
+                            }
+                        </select>
+                    </td>
+                    <td>@ticket.CreatedAt.ToLocalTime().ToString("g")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Ticket>? tickets;
+    private string? statusMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        tickets = await DbContext.Tickets.ToListAsync();
+    }
+
+    private async Task UpdateStatus(Ticket ticket, string? newStatusStr)
+    {
+        if (Enum.TryParse<TicketStatus>(newStatusStr, out var newStatus) && ticket.Status != newStatus)
+        {
+            ticket.Status = newStatus;
+            DbContext.Tickets.Update(ticket);
+            await DbContext.SaveChangesAsync();
+
+            statusMessage = $"✅ Ticket #{ticket.Id} updated to {newStatus}.";
+        }
+    }
+}

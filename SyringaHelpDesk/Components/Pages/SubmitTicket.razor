@@ -1,0 +1,43 @@
+@page "/submit-ticket"
+@inject SyringaHelpDesk.Data.AppDbContext DbContext
+@using SyringaHelpDesk.Data
+@rendermode InteractiveServer
+
+<PageTitle>Submit a New Ticket</PageTitle>
+
+<h1>Submit a Ticket</h1>
+
+<div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input id="title" class="form-control" @bind="ticket.Title" />
+</div>
+
+<div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea id="description" class="form-control" rows="5" @bind="ticket.Description"></textarea>
+</div>
+
+<button class="btn btn-primary" @onclick="HandleSubmit">Submit</button>
+
+@if (submitSuccess)
+{
+    <div class="alert alert-success mt-3">Ticket submitted successfully!</div>
+}
+
+@code {
+    private Ticket ticket = new Ticket();
+
+    private bool submitSuccess = false;
+
+    private async Task HandleSubmit()
+    {
+        ticket.CreatedAt = DateTime.UtcNow;
+        ticket.Status = TicketStatus.Open;
+
+        DbContext.Tickets.Add(ticket);
+        await DbContext.SaveChangesAsync();
+
+        submitSuccess = true;
+        ticket = new Ticket(); // Reset form
+    }
+}

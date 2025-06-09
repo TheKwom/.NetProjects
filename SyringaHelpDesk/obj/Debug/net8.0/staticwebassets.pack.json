@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/mikekwom/Desktop/SyringaApplicationProjects/SyringaHelpDesk/obj/Debug/net8.0/scopedcss/projectbundle/SyringaHelpDesk.bundle.scp.css",
+      "PackagePath": "staticwebassets/SyringaHelpDesk.bundle.scp.css"
+    },
+    {
+      "Id": "/Users/mikekwom/Desktop/SyringaApplicationProjects/SyringaHelpDesk/wwwroot/app.css",
+      "PackagePath": "staticwebassets/app.css"
+    },
+    {
+      "Id": "/Users/mikekwom/Desktop/SyringaApplicationProjects/SyringaHelpDesk/wwwroot/bootstrap/bootstrap.min.css",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/mikekwom/Desktop/SyringaApplicationProjects/SyringaHelpDesk/wwwroot/bootstrap/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/Users/mikekwom/Desktop/SyringaApplicationProjects/SyringaHelpDesk/wwwroot/favicon.png",
+      "PackagePath": "staticwebassets/favicon.png"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.SyringaHelpDesk.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.SyringaHelpDesk.props",
+      "PackagePath": "build\\SyringaHelpDesk.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.SyringaHelpDesk.props",
+      "PackagePath": "buildMultiTargeting\\SyringaHelpDesk.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.SyringaHelpDesk.props",
+      "PackagePath": "buildTransitive\\SyringaHelpDesk.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
