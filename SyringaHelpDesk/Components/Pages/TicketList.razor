@@ -8,19 +8,24 @@
 
 <h1>Tickets</h1>
 
-@if (!string.IsNullOrEmpty(statusMessage))
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @statusMessage
-        <button type="button" class="btn-close" @onclick="() => statusMessage = null" aria-label="Close"></button>
-    </div>
-}
+<div class="mb-3">
+    <input type="text" class="form-control mb-2" placeholder="Search by title or description..." 
+           @bind="SearchTerm" @bind:event="oninput" />
+    
+    <select class="form-control" @bind="SelectedStatus">
+        <option value="">All Statuses</option>
+        @foreach (var status in Enum.GetValues<TicketStatus>())
+        {
+            <option value="@status.ToString()">@status</option>
+        }
+    </select>
+</div>
 
-@if (tickets == null)
+@if (filteredTickets == null)
 {
     <p><em>Loading...</em></p>
 }
-else if (!tickets.Any())
+else if (!filteredTickets.Any())
 {
     <p>No tickets found.</p>
 }
@@ -36,13 +41,14 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var ticket in tickets)
+            @foreach (var ticket in filteredTickets)
             {
                 <tr>
                     <td>@ticket.Id</td>
                     <td>@ticket.Title</td>
                     <td>
-                        <select @onchange="async e => await UpdateStatus(ticket, e.Value?.ToString())" value="@ticket.Status.ToString()">
+                        <select @onchange="async e => await UpdateStatus(ticket, e.Value?.ToString() ?? string.Empty)" 
+                                value="@ticket.Status.ToString()">
                             @foreach (var status in Enum.GetValues<TicketStatus>())
                             {
                                 <option value="@status.ToString()">@status.ToString()</option>
@@ -57,12 +63,63 @@ else
 }
 
 @code {
-    private List<Ticket>? tickets;
-    private string? statusMessage;
+    private List<Ticket>? filteredTickets;
+
+    private string _searchTerm = string.Empty;
+    private string SearchTerm
+    {
+        get => _searchTerm;
+        set
+        {
+            if (_searchTerm != value)
+            {
+                _searchTerm = value;
+                _ = LoadFilteredTickets(); // fire-and-forget
+            }
+        }
+    }
+
+    private string _selectedStatus = string.Empty;
+    private string SelectedStatus
+    {
+        get => _selectedStatus;
+        set
+        {
+            if (_selectedStatus != value)
+            {
+                _selectedStatus = value;
+                _ = LoadFilteredTickets(); // fire-and-forget
+            }
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        tickets = await DbContext.Tickets.ToListAsync();
+        await LoadFilteredTickets();
+    }
+
+    private async Task LoadFilteredTickets()
+    {
+        var query = DbContext.Tickets.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(SearchTerm))
+        {
+            query = query.Where(t =>
+                t.Title.Contains(SearchTerm) ||
+                t.Description.Contains(SearchTerm));
+        }
+
+        if (!string.IsNullOrEmpty(SelectedStatus) &&
+            Enum.TryParse<TicketStatus>(SelectedStatus, out var statusEnum))
+        {
+            query = query.Where(t => t.Status == statusEnum);
+        }
+
+        filteredTickets = await query
+            .OrderByDescending(t => t.CreatedAt)
+            .ToListAsync();
+
+        StateHasChanged();
     }
 
     private async Task UpdateStatus(Ticket ticket, string? newStatusStr)
@@ -72,8 +129,7 @@ else
             ticket.Status = newStatus;
             DbContext.Tickets.Update(ticket);
             await DbContext.SaveChangesAsync();
-
-            statusMessage = $"✅ Ticket #{ticket.Id} updated to {newStatus}.";
+            await LoadFilteredTickets(); // Refresh after update
         }
     }
 }

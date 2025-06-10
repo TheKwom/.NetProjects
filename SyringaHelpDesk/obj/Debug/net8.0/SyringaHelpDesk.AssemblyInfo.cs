@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SyringaHelpDesk")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b8a81f4e1dcbddc4317df6d20d49bc6ad9229d66")]
 [assembly: System.Reflection.AssemblyProductAttribute("SyringaHelpDesk")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SyringaHelpDesk")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
