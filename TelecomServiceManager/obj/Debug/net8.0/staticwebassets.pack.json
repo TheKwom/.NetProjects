@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/mikekwom/Desktop/SyringaApplicationProjects/TelecomServiceManager/obj/Debug/net8.0/scopedcss/projectbundle/TelecomServiceManager.bundle.scp.css",
+      "PackagePath": "staticwebassets/TelecomServiceManager.bundle.scp.css"
+    },
+    {
+      "Id": "/Users/mikekwom/Desktop/SyringaApplicationProjects/TelecomServiceManager/wwwroot/app.css",
+      "PackagePath": "staticwebassets/app.css"
+    },
+    {
+      "Id": "/Users/mikekwom/Desktop/SyringaApplicationProjects/TelecomServiceManager/wwwroot/bootstrap/bootstrap.min.css",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/mikekwom/Desktop/SyringaApplicationProjects/TelecomServiceManager/wwwroot/bootstrap/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/bootstrap/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/Users/mikekwom/Desktop/SyringaApplicationProjects/TelecomServiceManager/wwwroot/favicon.png",
+      "PackagePath": "staticwebassets/favicon.png"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.TelecomServiceManager.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.TelecomServiceManager.props",
+      "PackagePath": "build\\TelecomServiceManager.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.TelecomServiceManager.props",
+      "PackagePath": "buildMultiTargeting\\TelecomServiceManager.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.TelecomServiceManager.props",
+      "PackagePath": "buildTransitive\\TelecomServiceManager.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

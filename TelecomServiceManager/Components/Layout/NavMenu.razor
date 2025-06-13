@@ -1,0 +1,26 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">TelecomServiceManager</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+<NavLink class="nav-link" href="customers" Match="NavLinkMatch.All">
+    <span class="oi oi-people" aria-hidden="true"></span> Customers
+</NavLink>
+<NavLink class="nav-link" href="services" Match="NavLinkMatch.All">
+    <span class="oi oi-list-rich" aria-hidden="true"></span> Services
+</NavLink>
+<NavLink class="nav-link" href="assignments" Match="NavLinkMatch.All">
+    <span class="oi oi-link-intact" aria-hidden="true"></span> Assign Services
+</NavLink>
+<NavLink class="nav-link" href="bills" Match="NavLinkMatch.All">
+    <span class="oi oi-dollar" aria-hidden="true"></span> Bills
+</NavLink>
+
+    </nav>
+</div>
+

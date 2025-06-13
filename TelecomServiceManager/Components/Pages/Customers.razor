@@ -1,0 +1,151 @@
+@page "/customers"
+@inject TelecomServiceManager.Data.AppDbContext DbContext
+@using TelecomServiceManager.Data
+@using TelecomServiceManager.Models
+@using Microsoft.EntityFrameworkCore
+@rendermode InteractiveServer
+
+<PageTitle>Customers</PageTitle>
+
+<h1>Customers</h1>
+
+<div class="mb-3">
+    <input type="text" class="form-control" placeholder="Search by name, email, or phone..." @bind="SearchTerm" @bind:event="oninput" />
+</div>
+
+<button class="btn btn-success mb-3" @onclick="ShowModal">Add Customer</button>
+
+<!-- Modal -->
+<div class="modal fade @(showModal ? "show d-block" : "")" tabindex="-1" style="background-color: rgba(0,0,0,0.5);" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Customer</h5>
+                <button type="button" class="btn-close" @onclick="CloseModal" aria-label="Close"></button>
+            </div>
+
+            <EditForm Model="newCustomer" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="modal-body">
+                    <input class="form-control mb-2" @bind="newCustomer.FullName" placeholder="Full Name" />
+                    <input class="form-control mb-2" @bind="newCustomer.Email" placeholder="Email" />
+                    <input class="form-control mb-2" @bind="newCustomer.Phone" placeholder="Phone" />
+                    <input class="form-control mb-2" @bind="newCustomer.Address" placeholder="Address" />
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cancel</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+
+
+@if (filteredCustomers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!filteredCustomers.Any())
+{
+    <p>No customers found.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in filteredCustomers)
+            {
+                <tr>
+                    <td>@customer.Id</td>
+                    <td>@customer.FullName</td>
+                    <td>@customer.Email</td>
+                    <td>@customer.Phone</td>
+                    <td>@customer.Address</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Customer>? filteredCustomers;
+
+    private string _searchTerm = string.Empty;
+
+    private string SearchTerm
+    {
+        get => _searchTerm;
+        set
+        {
+            if (_searchTerm != value)
+            {
+                _searchTerm = value;
+                _ = LoadFilteredCustomers();
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFilteredCustomers();
+    }
+
+    private async Task LoadFilteredCustomers()
+    {
+        var query = DbContext.Customers.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(SearchTerm))
+        {
+            query = query.Where(c =>
+                c.FullName.Contains(SearchTerm) ||
+                c.Email.Contains(SearchTerm) ||
+                c.Phone.Contains(SearchTerm));
+        }
+
+        filteredCustomers = await query
+            .OrderByDescending(c => c.CreatedAt)
+            .ToListAsync();
+
+        StateHasChanged();
+    }
+private bool showModal = false;
+private Customer newCustomer = new();
+
+private void ShowModal()
+{
+    newCustomer = new();
+    showModal = true;
+}
+
+private void CloseModal()
+{
+    showModal = false;
+}
+
+private async Task HandleValidSubmit()
+{
+    newCustomer.CreatedAt = DateTime.UtcNow;
+    DbContext.Customers.Add(newCustomer);
+    await DbContext.SaveChangesAsync();
+
+    CloseModal();
+    await LoadFilteredCustomers();
+}
+
+
+}
